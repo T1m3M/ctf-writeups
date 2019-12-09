@@ -11,7 +11,7 @@ It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo 
 #### Forensics (100 points)
 
 ### Description
-In this challenge we're given a [repeat.zip](repeat.zip) file which have a flag text file inside
+In this challenge we're given a [repeat.zip](repeat.zip) file
 
 ### solution
 we check the file by **file** command to see if zip is the true extension of it:
