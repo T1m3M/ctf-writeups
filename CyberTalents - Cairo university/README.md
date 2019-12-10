@@ -180,7 +180,211 @@ and by disassembling it:
 ```
 it seems that this function do multiple tests to check for username and password and if everything is okay it follows to the address 0x0000000000400a92 to call **getuser** function
 
-and again after we disassemble getuser function we will see **getBin** and **getIndex** functions are being called
-so the general look at this code is that the check function makes a general checks for inputs and getuser function checks if the password is correct for the current user with some mathematics by getBin and getIndex functions
+and again after we disassemble getuser function we will see **getBin** and **getIndex** functions are being called.
 
-i moved then to [Ghidra](https://ghidra-sre.org/) to decompile those functions for better and detalied understanding.
+So the general look at this code is that the check function makes a general checks for inputs and getuser function checks if the password is correct for the current user with some mathematics by getBin and getIndex functions.
+
+I moved then to [Ghidra](https://ghidra-sre.org/) to decompile those functions for better and detalied understanding.
+
+i decompiled the main and i got this:
+```c
+undefined8 main(int param_1,long param_2)
+
+{
+  int iVar1;
+  char *__s1;
+  char *pcVar2;
+  
+  if (param_1 < 3) {
+    puts("usage: ./ezez_keygen2 username serial");
+    return 0xffffffff;
+  }
+  __s1 = strdup(*(char **)(param_2 + 8));
+  pcVar2 = strdup(*(char **)(param_2 + 0x10));
+  iVar1 = check(__s1,pcVar2,pcVar2);
+
+  if ((iVar1 == 1) && (iVar1 = strcmp(__s1,"4dminUser31337"), iVar1 == 0)) {
+    printf("flag is: flag{%s}\n",pcVar2);
+    return 0;
+  }
+
+  puts("unrecognized user");
+  exit(-1);
+}
+```
+So to get the flag the check(username, password) must be true and the username must be "**4dminUser31337**".
+*well, we got the username .. now let's go get the password!*
+
+I decompiled check function to see what's happening there:
+```c
+undefined8 check(char *param_1,char *param_2)
+
+{
+  int iVar1;
+  size_t sVar2;
+  size_t sVar3;
+  undefined8 uVar4;
+  char *__s1;
+  
+  sVar2 = strlen(param_1);
+  sVar3 = strlen(param_2);
+
+  if ((sVar2 < 0x1f) && (sVar3 < 0x3d)) {
+
+    if (sVar3 >> 1 == sVar2) {
+      __s1 = (char *)getuser(param_2);
+      iVar1 = strcmp(__s1,param_1);
+
+      if (iVar1 == 0) {
+        uVar4 = 1;
+      }
+      else {
+        uVar4 = 0xffffffff;
+      }
+    }
+    else {
+      uVar4 = 0xffffffff;
+    }
+  }
+  else {
+    uVar4 = 0xffffffff;
+  }
+  return uVar4;
+}
+```
+Now we know that:
+* username must be < 30 characters
+* password must be < 60 characters
+* the password length should be twice the username length
+* the password is passed to getuser function and it returns a string
+* the string returned by getuser function should be identical to the username we entered
+
+So the getuser function generates a string based on the password
+i then studied how it does that and i came up with this python code which is equivalent of getuser function:
+
+```python
+LTable = "AFECWQPXIGJTUBN%"
+HTable = "cpqowuejfnvhzbx$" 
+
+# enter the password to be encrypted
+password = ''
+password = input("Password = ")
+
+p = ''
+counter = 0
+
+# loop for password length
+while(True):
+
+    pass_len = len(password)
+    if(pass_len <= counter):
+        break
+    
+    # find the index of the password even-indexed letter in LTable
+    even_index = LTable.find(password[counter])
+
+    # find the index of the password odd-indexed letter in HTable
+    odd_index  = HTable.find(password[counter + 1])
+
+    # convert the index value to binary
+    s = format(even_index, '04b')
+    t = format(odd_index, '04b')
+
+    # concatenate even-indexed value in binary with odd-indexed value in binary to get 1 byte
+    # (e.g. [s = 0110, t = 0001] => p = 00101001)
+    for x in range (0, 4):
+        p += s[x]
+        p += t[x]
+
+    # seperate each byte with a space
+    p += ' '
+    
+    # reset
+    s = ''
+    t = ''
+
+    counter += 2
+
+list_bin = p.split(' ')
+list_bin.pop()
+
+h = ""
+
+for i in list_bin:
+    # convert each byte to hex
+    h = hex(int(i, 2))[2:]
+
+    # convert each byte in hex to decimal
+    h2i = int(h, 16)
+
+    # get the ascii character
+    print(chr(h2i), end = '')
+
+print('')
+```
+**NOTE:** *the even-indexed character in the input string must be in LTable and the odd-indexed character must be in HTable*
+
+Shortly, it iterates for each charachter in the password string and searches for it in LTable *if the character index is even* and HTable *if the character index is odd* and then convert these values to binary (4-bits) and combine them into 1-byte (8-bits) and gets the ascii value of this byte.
+
+As explained this will result in a string with a half-length of password and this string must be the same as the username which we got before "**4dminUser31337**".
+
+Now given "**4dminUser31337**" need to reverse this decryption process to get the password!
+
+i wrote a python code again to do this task for us which is the reverse process of the previous code:
+```python
+# given information
+LTable = "AFECWQPXIGJTUBN%"
+HTable = "cpqowuejfnvhzbx$"
+
+# the username we need to decrypt
+user = "4dminUser31337"
+
+# username in binary
+s = "00" + bin(int.from_bytes(user.encode(), 'big'))[2:]
+
+p = ""
+q = ""
+flag = ""
+
+# loop for each byte in s
+for i in range(0, len(s) // 8):
+    # each byte in s
+    piece = s[8 * i:8 * (i+1)]
+    
+    # seperate the byte so even-indexed bits stored in p and odd-indexed bits stored in q
+    for j in range(0, 8):
+        if(j%2 == 0):
+            p += piece[j]
+        else:
+            q += piece[j]
+
+    # convert p and q to decimal
+    LTable_index = int(p, 2)
+    HTable_index = int(q, 2)
+
+    # get the p-th letter in LTable and the q-th letter in HTable
+    flag += LTable[LTable_index] + HTable[HTable_index]
+    
+    # reset
+    p = ""
+    q = ""
+
+print(flag)
+```
+
+This will print out **WeWvPhPnXvA$QbWhQzQuWuQuQuQj** and by running the program:
+```
+$ ./ezez_keygen2 4dminUser31337 WeWvPhPnXvA$QbWhQzQuWuQuQuQj
+
+unrecognized user
+```
+
+It doesn't work, why?!!
+Because **$** character in bash is reserved and what comes after it is a variable name
+to solve this problem we can use '\' to escape this character and run again
+```
+$ ./ezez_keygen2 4dminUser31337 WeWvPhPnXvA\$QbWhQzQuWuQuQuQj
+
+flag is: flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
+```
+
