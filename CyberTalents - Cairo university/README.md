@@ -69,6 +69,7 @@ flag{Scrip7ing_is_s0_4w3som3}
 
 
 ### solution
+**Solved after the competition**
 First, i used **gdb** to see the structure of the program:
 
 ```
@@ -375,16 +376,18 @@ print(flag)
 This will print out **WeWvPhPnXvA$QbWhQzQuWuQuQuQj** and by running the program:
 ```
 $ ./ezez_keygen2 4dminUser31337 WeWvPhPnXvA$QbWhQzQuWuQuQuQj
-
 unrecognized user
 ```
 
 It doesn't work, why?!!
 Because **$** character in bash is reserved and what comes after it is a variable name
-to solve this problem we can use '\' to escape this character and run again
+to solve this problem we can use **\\** to escape this character and run again
 ```
 $ ./ezez_keygen2 4dminUser31337 WeWvPhPnXvA\$QbWhQzQuWuQuQuQj
-
 flag is: flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 ```
 
+And that's it!! we're done!
+```
+flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
+```
