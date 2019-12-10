@@ -19,8 +19,9 @@ It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo 
 ### Description
 In this challenge we're given a [repeat.zip](repeat.zip) file
 
+
 ### solution
-we check the file by **file** command to see if zip is the true extension of it:
+i checked the file by **file** command to see if zip is the true extension of it:
 ```
 $ file repeat.zip
 repeat.zip: Zip archive data, at least v2.0 to extract
@@ -46,7 +47,7 @@ and then unzip it:
 ```
 $ unzip flag.zip
 ```
-we get a file called **flag** again! .. after repeating the process of renaming and unzipping the fiile again we will get the same result, *so it sounds like this file is archived multiple times, right?*
+i got a file called **flag** again! .. after repeating the process of renaming and unzipping the fiile again i got the same result, *so it sounds like this file is archived multiple times, right?*
 
 and since we repeat the renaming and the unzipping process we can write a bash script to do this task for us by a for loop:
 ```
@@ -66,4 +67,120 @@ flag{Scrip7ing_is_s0_4w3som3}
 ### Description
 [ezez_keygen2](ezez_keygen2) is an executable file and the task is to **crack it**
 
+
 ### solution
+First, i used **gdb** to see the structure of the program:
+
+```
+$ gdb ezez_keygen2
+(gdb) set disassembly-flavor intel
+(gdb) disas main
+```
+
+and the output was:
+```
+   0x0000000000400abb <+0>:	push   rbp
+   0x0000000000400abc <+1>:	mov    rbp,rsp
+   0x0000000000400abf <+4>:	sub    rsp,0x20
+   0x0000000000400ac3 <+8>:	mov    DWORD PTR [rbp-0x14],edi
+   0x0000000000400ac6 <+11>:	mov    QWORD PTR [rbp-0x20],rsi
+   0x0000000000400aca <+15>:	cmp    DWORD PTR [rbp-0x14],0x2
+   0x0000000000400ace <+19>:	jg     0x400ae4 <main+41>
+   0x0000000000400ad0 <+21>:	mov    edi,0x400c20
+   0x0000000000400ad5 <+26>:	call   0x4005e0 <puts@plt>
+   0x0000000000400ada <+31>:	mov    eax,0xffffffff
+   0x0000000000400adf <+36>:	jmp    0x400b70 <main+181>
+   0x0000000000400ae4 <+41>:	mov    rax,QWORD PTR [rbp-0x20]
+   0x0000000000400ae8 <+45>:	add    rax,0x8
+   0x0000000000400aec <+49>:	mov    rax,QWORD PTR [rax]
+   0x0000000000400aef <+52>:	mov    rdi,rax
+   0x0000000000400af2 <+55>:	call   0x400670 <strdup@plt>
+   0x0000000000400af7 <+60>:	mov    QWORD PTR [rbp-0x10],rax
+   0x0000000000400afb <+64>:	mov    rax,QWORD PTR [rbp-0x20]
+   0x0000000000400aff <+68>:	add    rax,0x10
+   0x0000000000400b03 <+72>:	mov    rax,QWORD PTR [rax]
+   0x0000000000400b06 <+75>:	mov    rdi,rax
+   0x0000000000400b09 <+78>:	call   0x400670 <strdup@plt>
+   0x0000000000400b0e <+83>:	mov    QWORD PTR [rbp-0x8],rax
+   0x0000000000400b12 <+87>:	mov    rdx,QWORD PTR [rbp-0x8]
+   0x0000000000400b16 <+91>:	mov    rax,QWORD PTR [rbp-0x10]
+   0x0000000000400b1a <+95>:	mov    rsi,rdx
+   0x0000000000400b1d <+98>:	mov    rdi,rax
+   0x0000000000400b20 <+101>:	call   0x400a32 <check>
+   0x0000000000400b25 <+106>:	cmp    eax,0x1
+   0x0000000000400b28 <+109>:	jne    0x400b5c <main+161>
+   0x0000000000400b2a <+111>:	mov    rax,QWORD PTR [rbp-0x10]
+   0x0000000000400b2e <+115>:	mov    esi,0x400c46
+   0x0000000000400b33 <+120>:	mov    rdi,rax
+   0x0000000000400b36 <+123>:	call   0x400640 <strcmp@plt>
+   0x0000000000400b3b <+128>:	test   eax,eax
+   0x0000000000400b3d <+130>:	jne    0x400b5c <main+161>
+   0x0000000000400b3f <+132>:	mov    rax,QWORD PTR [rbp-0x8]
+   0x0000000000400b43 <+136>:	mov    rsi,rax
+   0x0000000000400b46 <+139>:	mov    edi,0x400c55
+   0x0000000000400b4b <+144>:	mov    eax,0x0
+   0x0000000000400b50 <+149>:	call   0x400620 <printf@plt>
+   0x0000000000400b55 <+154>:	mov    eax,0x0
+   0x0000000000400b5a <+159>:	jmp    0x400b70 <main+181>
+   0x0000000000400b5c <+161>:	mov    edi,0x400c68
+   0x0000000000400b61 <+166>:	call   0x4005e0 <puts@plt>
+   0x0000000000400b66 <+171>:	mov    edi,0xffffffff
+   0x0000000000400b6b <+176>:	call   0x400660 <exit@plt>
+   0x0000000000400b70 <+181>:	leave  
+   0x0000000000400b71 <+182>:	ret    
+
+```
+
+well, at address 0x0000000000400b20 there is a function named **check** is called and that sounds interesting!
+and by disassembling it:
+
+``` 
+(gdb) disas check
+
+   0x0000000000400a32 <+0>:	push   rbp
+   0x0000000000400a33 <+1>:	mov    rbp,rsp
+   0x0000000000400a36 <+4>:	sub    rsp,0x20
+   0x0000000000400a3a <+8>:	mov    QWORD PTR [rbp-0x18],rdi
+   0x0000000000400a3e <+12>:	mov    QWORD PTR [rbp-0x20],rsi
+   0x0000000000400a42 <+16>:	mov    rax,QWORD PTR [rbp-0x18]
+   0x0000000000400a46 <+20>:	mov    rdi,rax
+   0x0000000000400a49 <+23>:	call   0x4005f0 <strlen@plt>
+   0x0000000000400a4e <+28>:	mov    QWORD PTR [rbp-0x10],rax
+   0x0000000000400a52 <+32>:	mov    rax,QWORD PTR [rbp-0x20]
+   0x0000000000400a56 <+36>:	mov    rdi,rax
+   0x0000000000400a59 <+39>:	call   0x4005f0 <strlen@plt>
+   0x0000000000400a5e <+44>:	mov    QWORD PTR [rbp-0x8],rax
+   0x0000000000400a62 <+48>:	cmp    QWORD PTR [rbp-0x10],0x1e
+   0x0000000000400a67 <+53>:	ja     0x400a70 <check+62>
+   0x0000000000400a69 <+55>:	cmp    QWORD PTR [rbp-0x8],0x3c
+   0x0000000000400a6e <+60>:	jbe    0x400a77 <check+69>
+   0x0000000000400a70 <+62>:	mov    eax,0xffffffff
+   0x0000000000400a75 <+67>:	jmp    0x400ab9 <check+135>
+   0x0000000000400a77 <+69>:	mov    rax,QWORD PTR [rbp-0x8]
+   0x0000000000400a7b <+73>:	shr    rax,1
+   0x0000000000400a7e <+76>:	cmp    rax,QWORD PTR [rbp-0x10]
+   0x0000000000400a82 <+80>:	je     0x400a8b <check+89>
+   0x0000000000400a84 <+82>:	mov    eax,0xffffffff
+   0x0000000000400a89 <+87>:	jmp    0x400ab9 <check+135>
+   0x0000000000400a8b <+89>:	mov    rax,QWORD PTR [rbp-0x20]
+   0x0000000000400a8f <+93>:	mov    rdi,rax
+   0x0000000000400a92 <+96>:	call   0x4008a5 <getuser>
+   0x0000000000400a97 <+101>:	mov    rdx,rax
+   0x0000000000400a9a <+104>:	mov    rax,QWORD PTR [rbp-0x18]
+   0x0000000000400a9e <+108>:	mov    rsi,rax
+   0x0000000000400aa1 <+111>:	mov    rdi,rdx
+   0x0000000000400aa4 <+114>:	call   0x400640 <strcmp@plt>
+   0x0000000000400aa9 <+119>:	test   eax,eax
+   0x0000000000400aab <+121>:	je     0x400ab4 <check+130>
+   0x0000000000400aad <+123>:	mov    eax,0xffffffff
+   0x0000000000400ab2 <+128>:	jmp    0x400ab9 <check+135>
+   0x0000000000400ab4 <+130>:	mov    eax,0x1
+   0x0000000000400ab9 <+135>:	leave  
+   0x0000000000400aba <+136>:	ret    
+```
+it seems that this function do multiple tests to check for username and password and if everything is okay it follows to the address 0x0000000000400a92 to call **getuser** function
+
+and again after we disassemble getuser function we will see **getBin** and **getIndex** functions are being called
+so the general look at this code is that the check function makes a general checks for inputs and getuser function checks if the password is correct for the current user with some mathematics by getBin and getIndex functions
+
+i moved then to [Ghidra](https://ghidra-sre.org/) to decompile those functions for better and detalied understanding.
