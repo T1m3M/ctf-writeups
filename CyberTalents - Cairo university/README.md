@@ -328,13 +328,13 @@ for i in list_bin:
 
 print('')
 ```
-**NOTE:** *the even-indexed character in the input string must be in LTable and the odd-indexed character must be in HTable*
+**NOTE:** *the even-indexed characters in the input string must be in LTable and the odd-indexed characters must be in HTable*
 
-Shortly, it iterates for each charachter in the password string and searches for it in LTable *if the character index is even* and HTable *if the character index is odd* and then convert these values to binary (4-bits) and combine them into 1-byte (8-bits) and gets the ascii value of this byte.
+Shortly, it iterates for each charachter in the password string and searches for it in LTable *if the character index is even* and searches for it in HTable *if the character index is odd* and then converts each value to binary (4-bits) and combine them into 1-byte (8-bits) and then gets the ascii value of this byte.
 
 As explained this will result in a string with a half-length of password and this string must be the same as the username which we got before "**4dminUser31337**".
 
-Now given "**4dminUser31337**" need to reverse this decryption process to get the password!
+Now given "**4dminUser31337**" we need to reverse this encryption process to get the password!
 
 i wrote a python code again to do this task for us which is the reverse process of the previous code:
 ```python
@@ -386,13 +386,13 @@ unrecognized user
 
 It doesn't work, why?!!
 Because **$** character in bash is reserved and what comes after it is a variable name
-to solve this problem we can use **\\** to escape this character and run again
+to solve this problem we can use **\\** to escape this character and by running the program again:
 ```
 $ ./ezez_keygen2 4dminUser31337 WeWvPhPnXvA\$QbWhQzQuWuQuQuQj
 flag is: flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 ```
 
-And that's it!! we got the flag!
+that's it!! we got the flag!
 ```
 flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 ```
