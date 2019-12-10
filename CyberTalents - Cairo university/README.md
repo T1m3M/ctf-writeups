@@ -1,7 +1,8 @@
 # CyberTalents - Cairo university
+### 6-12-2019
 It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo University and was also my first time to participate in a real-life CTF!
 
-**NOTE:** the descriptions of the challenges are not accurate because the challenges are not accessible after we finished the competition and i don't remember them.
+**NOTE:** the descriptions of the challenges aren't accurate because they're not available after the competition has ended.
 
 
 ## Challenges
@@ -21,38 +22,42 @@ In this challenge we're given a [repeat.zip](repeat.zip) file
 
 
 ### solution
+
 i checked the file by **file** command to see if zip is the true extension of it:
 ```
 $ file repeat.zip
 repeat.zip: Zip archive data, at least v2.0 to extract
 ```
+
 well, it seems that .zip is the true extension!
 let's unzip it!!
 ```
 $ unzip repeat.zip
 ```
-now we have a file called **flag** and by checking it using **file** command again: 
 
+now we have a file called **flag** and by checking it using **file** command again: 
 ```
 $ file flag
 flag: Zip archive data, at least v2.0 to extract
 ```
-we see that it's a zip file too! now we should rename it to **flag.zip**:
 
+we see that it's a zip file too! now we should rename it to **flag.zip**:
 ```
 $ mv flag flag.zip
 ```
-and then unzip it:
 
+and then unzip it:
 ```
 $ unzip flag.zip
 ```
+
 i got a file called **flag** again! .. after repeating the process of renaming and unzipping the fiile again i got the same result, *so it sounds like this file is archived multiple times, right?*
 
 and since we repeat the renaming and the unzipping process we can write a bash script to do this task for us by a for loop:
 ```
 $ for i in {0..100}; do mv flag flag.zip && unzip flag.zip; done
 ```
+
 after the script finished, now we can see a **flag.txt** which contains the flag
 ```
 flag{Scrip7ing_is_s0_4w3som3}
@@ -70,6 +75,7 @@ flag{Scrip7ing_is_s0_4w3som3}
 
 ### solution
 **Solved after the competition**
+
 First, i used **gdb** to see the structure of the program:
 
 ```
@@ -132,7 +138,7 @@ and the output was:
 
 ```
 
-well, at address 0x0000000000400b20 there is a function named **check** is called and that sounds interesting!
+well, at address 0x0000000000400b20 there is a function is called **check** and that sounds interesting!
 and by disassembling it:
 
 ``` 
@@ -387,7 +393,7 @@ $ ./ezez_keygen2 4dminUser31337 WeWvPhPnXvA\$QbWhQzQuWuQuQuQj
 flag is: flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 ```
 
-And that's it!! we're done!
+And that's it!! we got the flag!
 ```
 flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 ```
