@@ -266,8 +266,7 @@ Now we know that:
 * the password is passed to getuser function and it returns a string
 * the string returned by getuser function should be identical to the username we entered
 
-So the getuser function generates a string based on the password
-i then studied how it does that and i came up with this python code which is equivalent of getuser function:
+So the getuser function generates a string based on the password, i then studied how it's doing that and i came up with this python code which is equivalent of getuser function:
 
 ```python
 LTable = "AFECWQPXIGJTUBN%"
