@@ -1,5 +1,5 @@
-# CyberTalents - Cairo university
-### 6-12-2019
+# CyberTalents - Cairo University CTF 2019
+
 It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo University and was also my first time to participate in a real-life CTF!
 
 **NOTE:** the descriptions of the challenges aren't accurate because they're not available after the competition has ended.
