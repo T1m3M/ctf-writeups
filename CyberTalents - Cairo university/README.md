@@ -138,7 +138,7 @@ and the output was:
 
 ```
 
-well, at address 0x0000000000400b20 there is a function is called **check** and that sounds interesting!
+well, at address 0x0000000000400b20 there is a function called **check** and that sounds interesting!
 and by disassembling it:
 
 ``` 
