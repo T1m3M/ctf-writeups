@@ -386,7 +386,9 @@ unrecognized user
 
 It doesn't work, why?!!
 Because **$** character in bash is reserved and what comes after it is a variable name
-to solve this problem we can use **\\** to escape this character and by running the program again:
+to solve this problem we can use **\\** to escape this character
+
+and by running the program again:
 ```
 $ ./ezez_keygen2 4dminUser31337 WeWvPhPnXvA\$QbWhQzQuWuQuQuQj
 flag is: flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
