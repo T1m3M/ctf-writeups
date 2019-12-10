@@ -3,9 +3,10 @@ It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo 
 
 ## Challenges
 
-| Title         | Category      | Score |
-| ------------- |:-------------:| -----:|
-|    [repeat](#repeat) |   Forensics   |   100 |
+| Title                              | Category                        | Score |
+| ---------------------------------- |:-------------------------------:| -----:|
+|    [repeat](#repeat)               |   Forensics                     | 100   |
+|    [ezez keygen 2](#ezez-keygen-2) |   Malware reverse engineering   | 100   |
 
 ## repeat
 #### Forensics (100 points)
@@ -50,3 +51,13 @@ after the script finished, now we can see a **flag.txt** which contains the flag
 ```
 flag{Scrip7ing_is_s0_4w3som3}
 ```
+
+
+
+## ezez keygen 2
+#### Malware reverse engineering (100 points)
+
+### Description
+[ezez_keygen2](ezez_keygen2) is 
+
+### solution
