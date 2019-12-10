@@ -12,6 +12,7 @@ It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo 
 |    [ezez keygen 2](#ezez-keygen-2) |   Malware reverse engineering   | 100   |
 
 <hr />
+
 ## repeat
 #### Forensics (100 points)
 
