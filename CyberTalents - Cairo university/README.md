@@ -1,6 +1,9 @@
 # CyberTalents - Cairo university
 It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo University and was also my first time to participate in a real-life CTF!
 
+**NOTE:** the description of the challenges is not accurate because the challenges are not accessible after we finished the competition.
+
+
 ## Challenges
 
 | Title                              | Category                        | Score |
@@ -8,6 +11,7 @@ It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo 
 |    [repeat](#repeat)               |   Forensics                     | 100   |
 |    [ezez keygen 2](#ezez-keygen-2) |   Malware reverse engineering   | 100   |
 
+<hr />
 ## repeat
 #### Forensics (100 points)
 
@@ -53,11 +57,12 @@ flag{Scrip7ing_is_s0_4w3som3}
 ```
 
 
+<hr />
 
 ## ezez keygen 2
 #### Malware reverse engineering (100 points)
 
 ### Description
-[ezez_keygen2](ezez_keygen2) is 
+[ezez_keygen2](ezez_keygen2) is an executable file 
 
 ### solution
