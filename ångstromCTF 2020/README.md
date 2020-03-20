@@ -1,2 +1,2 @@
 # ångstromCTF 2020
-![alt text](https://github.com/Abd-Elrahman-Nasr/angstromCTF2020.png "ångstromCTF 2020")
+![ångstromCTF 2020](https://github.com/Abd-Elrahman-Nasr/ångstromCTF 2020/angstromCTF2020.png)
