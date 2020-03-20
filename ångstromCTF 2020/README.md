@@ -18,10 +18,11 @@
 ## Keysar
 #### Binary Exploitation (40 points)
 
+
 ### Description:
-> **Hey! My friend sent me a message... He said encrypted it with the key ANGSTROMCTF.
-> He mumbled what cipher he used, but I think I have a clue.
-> Gotta go though, I have history homework!!
+> **Hey! My friend sent me a message... He said encrypted it with the key ANGSTROMCTF.<br>
+> He mumbled what cipher he used, but I think I have a clue.<br>
+> Gotta go though, I have history homework!!<br>
 > agqr{yue_stdcgciup_padas}**
 
 > *Hint: Keyed caesar, does that even exist??*
@@ -36,3 +37,13 @@ actf{yum_delicious_salad}
 ---
 
 ## No Canary
+
+
+### Description:
+> **Agriculture is the most healthful, most useful and most noble employment of man.<br>
+> —George Washington<br><br>
+> Can you call the flag function in this [program](https://github.com/Abd-Elrahman-Nasr/ctf-writeups/blob/master/%C3%A5ngstromCTF%202020/No%20Canary/no_canary) ([source](https://github.com/Abd-Elrahman-Nasr/ctf-writeups/blob/master/%C3%A5ngstromCTF%202020/No%20Canary/no_canary.c))? Try it out on the shell server at /problems/2020/no_canary or by connecting with nc shell.actf.co 20700.**
+
+> *Hint: What's dangerous about the gets function?*
+
+### solution:
