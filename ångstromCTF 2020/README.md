@@ -28,7 +28,7 @@
 
 ### solution:
 
-Well, as it's obvious from the title it has something to do with "Ceaser Cipher" and as the hint says "Keyed Ceaser" so i used this (http://rumkin.com/tools/cipher/caesar-keyed.php)[site] to decrypt the flag given the key and BOOM! we got the flag!
+Well, as it's obvious from the title it has something to do with "Ceaser Cipher" and as the hint says "Keyed Ceaser" so i used this [site](http://rumkin.com/tools/cipher/caesar-keyed.php) to decrypt the flag given the key provided and BOOM! we got the flag!
 
 ```
 actf{yum_delicious_salad}
