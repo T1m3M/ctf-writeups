@@ -19,16 +19,16 @@
 #### Binary Exploitation (40 points)
 
 ### Description:
-> Hey! My friend sent me a message... He said encrypted it with the key ANGSTROMCTF.
+> **Hey! My friend sent me a message... He said encrypted it with the key ANGSTROMCTF.
 > He mumbled what cipher he used, but I think I have a clue.
 > Gotta go though, I have history homework!!
-> agqr{yue_stdcgciup_padas}
+> agqr{yue_stdcgciup_padas}**
 
-> ***Hint: Keyed caesar, does that even exist??***
+> *Hint: Keyed caesar, does that even exist??*
 
 ### solution:
 
-Well, as it's obvious from the title it has something to do with "Ceaser Cipher" and as the hint says "Keyed Ceaser" so i used this [http://rumkin.com/tools/cipher/caesar-keyed.php](site) to decrypt the flag given the key and BOOM! we got the flag!
+Well, as it's obvious from the title it has something to do with "Ceaser Cipher" and as the hint says "Keyed Ceaser" so i used this (http://rumkin.com/tools/cipher/caesar-keyed.php)[site] to decrypt the flag given the key and BOOM! we got the flag!
 
 ```
 actf{yum_delicious_salad}
