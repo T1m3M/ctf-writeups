@@ -207,7 +207,7 @@ So now we know that:
 2. The argument value must be ```" \n'\"\x07"``` *(without the quotes)*
 3. There's an input of value ```"\x00\x01\x02\x03\n"``` *(without the quotes)*
 
-I decoded the argument to hex so it's now: ``` \x20\x0a\x27\x22\x07 ``` .. i tried many methods but the easier one to pass this value as argument is using the ```$''``` quote style .. for the input we can use either ``` echo -e ``` or ``` printf ``` the both commands do the same job .. now our full command is:
+I encoded the argument to hex so it became: ``` \x20\x0a\x27\x22\x07 ```*(the backslash \ before " is just to escape the character in the C source)* .. I tried many methods but the easier one to pass this value as argument is using the ```$''``` quote style .. for the input we can use either ``` echo -e ``` or ``` printf ``` the both commands do the same job .. now our full command is:
 ```bash
 $ printf '\x00\x01\x02\x03\n' | ./inputter $'\x20\x0a\x27\x22\x07'
 You seem to know what you're doing.
