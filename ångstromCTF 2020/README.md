@@ -132,7 +132,7 @@ Flag: ``` actf{that_gosh_darn_canary_got_me_pwned!} ```
 #### Reversing (50 points)
 
 ### Description:
-> **Clam wrote a [](program) for his school's cybersecurity club's first rev lecture!<br>
+> **Clam wrote a [program](Revving%20Up/revving_up) for his school's cybersecurity club's first rev lecture!<br>
 > Can you get it to give you the flag?<br>
 > You can find it at /problems/2020/revving_up on the shell server, which you can access via the "shell" link at the top of the site.**
 
