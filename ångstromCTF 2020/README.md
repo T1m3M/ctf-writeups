@@ -136,7 +136,7 @@ Flag: ``` actf{that_gosh_darn_canary_got_me_pwned!} ```
 > Can you get it to give you the flag?<br>
 > You can find it at /problems/2020/revving_up on the shell server, which you can access via the "shell" link at the top of the site.**
 
-> *Hint: Try some google searches for "how to run a file in linux" or "bash for beginners".
+> *Hint: Try some google searches for "how to run a file in linux" or "bash for beginners".*
 
 ### solution:
 We go to the shell server and to the directory given we'll find 2 files flag.txt and revving_up And by: ``` $ file revving_up ``` we know that it's ELF 64-bit and by running it:
@@ -169,3 +169,14 @@ So easy, right ?!!
 Flag: ``` actf{g3tting_4_h4ng_0f_l1nux_4nd_b4sh} ```
 
 ---
+
+## Inputter
+#### Misc (100 points)
+
+### Description:
+> **Clam really likes challenging himself. When he learned about all these weird unprintable ASCII characters he just HAD to put it in a challenge. Can you satisfy his knack for strange and hard-to-input characters? Source.<br>
+> Find it on the shell server at /problems/2020/inputter/.**
+
+> *Hint: There are ways to run programs without using the shell.*
+
+### solution:
