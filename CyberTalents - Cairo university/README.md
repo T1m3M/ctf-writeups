@@ -405,7 +405,7 @@ flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 #### Malware reverse engineering (100 points)
 
 ### Description
-give [holmes.pcap](holmes.pcap) file .. get the flag
+given [holmes.pcap](holmes.pcap) file .. get the flag
 
 
 ### solution
@@ -420,7 +420,7 @@ there's a window popup contains the stream of the file and we will choose ``` sh
 
 Now we got the file notice that gpg file needs a password to be decrypted so our next step will be getting that password!
 
-There's interesting base64 text while we are scrolling in the pcap file .. and they all are sent over the protocol HTTP
+There are interesting base64 texts while we are scrolling in the pcap file .. and they all are sent over the protocol HTTP
 and the source is: ``` 192.168.56.1 ``` and the destination is: ``` 192.168.56.101 ``` so our filter is:
 ```
 http && ip.src == 192.168.56.1 && ip.dst == 192.168.56.101
