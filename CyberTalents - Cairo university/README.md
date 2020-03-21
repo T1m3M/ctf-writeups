@@ -427,22 +427,22 @@ http && ip.src == 192.168.56.1 && ip.dst == 192.168.56.101
 ```
 and by decoding each base64 password:
 ```
-QWxtb3N0VGhlcmVKdXN0cGFzcw==  ->    AlmostThereJustpass
-cVNGVXFaV3pNWG5CckJTY3E=	   ->	   qSFUqZWzMXnBrBScq
-MjAwQ29kZW1lYW5zPw==		      ->	   200Codemeans?
-QXV0b3NweVdhdHNvbg==		      ->	   AutospyWatson
-QXV0b3NweUhvbG1lcw==		      ->	   AutospyHolmes
-QyJdXyt1ajxfLmZLUWs9U1k=	   ->	   C"]_+uj<_.fKQk=SY
-aFNZdldEc0NrVWVySFlOdXE=	   ->	   hSYvWDsCkUerHYNuq
-SEZzTU13Q1BZTkhSU3BEcGo=	   ->	   HFsMMwCPYNHRSpDpj
-NWJIV3B6MmFmN3RUUHpWNVI=	   ->	   5bHWpz2af7tTPzV5R
-SG9sbWVzJldhdHNvblBhc3M=	   ->	   Holmes&WatsonPass
-Q2Fpcm9TZWN1cml0eUNhbXA=	   ->	   CairoSecurityCamp
-U2hlcmxva0hvbG1lczI=		      ->	   SherlokHolmes2
-UGFzczJyZFNvbHZlMjI=		      ->	   Pass2rdSolve22
-Qy8tdHQ6KytIa2tCVWhkZyQ=	   ->	   C/-tt:++HkkBUhdg$
-Yzs3WnFqTkBSbi1bZiRZJA==	   ->	   c;7ZqjN@Rn-[f$Y$
-JiFzbndCQEdtWVR+a1Y5XTYl	   ->	   &!snwB@GmYT~kV9]6%
+QWxtb3N0VGhlcmVKdXN0cGFzcw==	->	AlmostThereJustpass
+cVNGVXFaV3pNWG5CckJTY3E=	->	qSFUqZWzMXnBrBScq
+MjAwQ29kZW1lYW5zPw==		->	200Codemeans?
+QXV0b3NweVdhdHNvbg==		->	AutospyWatson
+QXV0b3NweUhvbG1lcw==		->	AutospyHolmes
+QyJdXyt1ajxfLmZLUWs9U1k=	->	C"]_+uj<_.fKQk=SY
+aFNZdldEc0NrVWVySFlOdXE=	->	hSYvWDsCkUerHYNuq
+SEZzTU13Q1BZTkhSU3BEcGo=	->	HFsMMwCPYNHRSpDpj
+NWJIV3B6MmFmN3RUUHpWNVI=	->	5bHWpz2af7tTPzV5R
+SG9sbWVzJldhdHNvblBhc3M=	->	Holmes&WatsonPass
+Q2Fpcm9TZWN1cml0eUNhbXA=	->	CairoSecurityCamp
+U2hlcmxva0hvbG1lczI=		->	SherlokHolmes2
+UGFzczJyZFNvbHZlMjI=		->	Pass2rdSolve22
+Qy8tdHQ6KytIa2tCVWhkZyQ=	->	C/-tt:++HkkBUhdg$
+Yzs3WnFqTkBSbi1bZiRZJA==	->	c;7ZqjN@Rn-[f$Y$
+JiFzbndCQEdtWVR+a1Y5XTYl	->	&!snwB@GmYT~kV9]6%
 ```
 
 And by applying each password to decrypt the gpg file using this command:
