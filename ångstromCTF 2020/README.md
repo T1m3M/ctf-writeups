@@ -174,7 +174,7 @@ Flag: ``` actf{g3tting_4_h4ng_0f_l1nux_4nd_b4sh} ```
 #### Misc (100 points)
 
 ### Description:
-> **Clam really likes challenging himself. When he learned about all these weird unprintable ASCII characters he just HAD to put it in a challenge. Can you satisfy his knack for strange and hard-to-input characters? Source.<br>
+> **Clam really likes challenging himself. When he learned about all these weird unprintable ASCII characters he just HAD to put it in [a challenge](Inputter/inputter). Can you satisfy his knack for strange and hard-to-input characters? [Source](Inputter/inputter.c).<br>
 > Find it on the shell server at /problems/2020/inputter/.**
 
 > *Hint: There are ways to run programs without using the shell.*
