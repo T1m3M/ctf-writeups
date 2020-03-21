@@ -232,3 +232,112 @@ Important: Don't use Python 3.8, use an older version of Python 3!
 > Also, which way does LSB work?*
 
 ### solution:
+Nice, so before anything .. we have an original photo ```breathe.jpg``` that has been encoded to ```output.png``` using ```public.py``` script
+
+Now we need to understand this script:
+```python
+from PIL import Image
+
+im = Image.open('breathe.jpg')
+im2 = Image.open("breathe.jpg")
+
+width, height = im.size
+
+flag = "REDACT"
+flag = ''.join([str(ord(i)) for i in flag])
+
+
+def encode(i, d):
+    i = list(str(i))
+    i[0] = d
+
+    return int(''.join(i))
+    
+
+c = 0
+
+for j in range(height):
+    for i in range(width):
+        data = []
+        for a in im.getpixel((i,j)):
+            data.append(encode(a, flag[c % len(flag)]))
+
+            c+=1
+
+        im.putpixel((i,j), tuple(data))
+        
+im.save("output.png")
+pixels = im.load()
+```
+
+By reading the script provided we conclude:
+1. flag variable has the decimal values of the characters of the flag ```(ex: "abc" -> "979899")```
+2. the for loop reads the pixels from top to bottom for each column in the photo starting from top left
+3. the first pixel in the photo it's first digit from the left "MSB" is replaced with the first digit from the left in the flag variable and the second pixel with the second digit in the flag, etc.. until the flag decimal values ends and then it starts over from the beggining of the flag, etc..
+
+So if the pixel is ``` 104 ``` and the digit from flag decimal representition is ```2``` the pixel becomes ``` 204 ``` 
+But there's a problem .. if the digit is 9 the pixel can not be ``` 904 ``` because the most value that can be stored to the pixel is ```255``` so in this case this digit is lost ...
+
+So the reversing of the code will be as follows:
+1. read the pixels of ``` output.png ```and ``` breathe.jpg ``` in the same direction as in the encryption process
+2. for each corresponding pixels compare the pixel of ```output.png``` with the pixel of ``` breathe.jpg ```
+   - if the 2 pixels have the same length AND the encrypted pixel is not equal 255, then get the first digit from left of the encrypted pixel (ex: 104, 204 -> 2)
+   - if the length of the encrypted pixel is less than the length of the original pixel, then put a zero (ex: 123, 23 -> 0)
+   - else then it's a lost digit and put 'x' to recognize it
+
+I wrote a script that can iterate through the whole image and do this decryption process:
+
+```python
+from PIL import Image
+
+imorg = Image.open("breathe.jpg")
+im = Image.open('output.png')
+
+width, height = im.size
+
+def getchar(a, b):
+    char = []
+
+    for i in range(0, 3):
+        
+        x = list(str(a[i]))
+        y = list(str(b[i]))
+        if len(x) == len(y) and b[i] != 255:
+            char.append(y[0])
+        elif len(y) < len(x):
+            char.append('0')
+        else:
+            char.append('x')
+        
+    return ''.join(char)
+
+all = ''
+
+for j in range(height):
+    for i in range(width):
+        
+        all += getchar(imorg.getpixel((i, j)), im.getpixel((i, j)))
+
+# since we know the first 5 letters of the flag "actf{" -> "9799116102123"
+pos = all.find('9799116102123')
+print(all[pos:pos+100])
+```
+
+Now be running it:
+```bash
+$ python3 decrypt.py
+9799116102123105110104971081019510112010497108101951011221121224549505148579810x10x103121104xxxx1x11
+```
+I used this site to decrypt the result after seperating the digits manually and the result was ``` actf{inhale_exhale_ezpz-12309b ``` .. it seems we got part of the flag but there are lost bits .. so i edited the last couple of lines in python to print the next occurence of the flag
+```python
+pos = all.find('9799116102123')
+posnext = all.find('9799116', pos+1)
+print(all[posnext:posnext+100])
+```
+And by running again:
+```bash
+$ python3 decrypt.py
+9799116102123105110104971081019510112010497108101951011221121224549505148579810510310312110497981211
+```
+Great! There are no lost bits .. no decypting again using the same site and yeah, we got the flag!
+Flag: ``` actf{inhale_exhale_ezpz-12309biggyhaby} ```
