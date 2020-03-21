@@ -217,3 +217,18 @@ actf{impr4ctic4l_pr0blems_c4ll_f0r_impr4ctic4l_s0lutions}
 Flag: ``` actf{impr4ctic4l_pr0blems_c4ll_f0r_impr4ctic4l_s0lutions} ```
 
 ---
+
+
+## msd
+#### Misc (140 points)
+
+### Description:
+> **You thought Angstrom would have a stereotypical LSB challenge... You were wrong! To spice it up, we're now using the [Most Significant Digit](msb/public.py). Can you still power through it?<br><br>
+Here's the [encoded image](msb/output.png), and here's the [original image](msb/breathe.jpg), for the... well, you'll see.<br><br>
+Important: Don't use Python 3.8, use an older version of Python 3!
+**
+
+> *Hint: Look at the difference between the original and what I created!<br>
+> Also, which way does LSB work?*
+
+### solution:
