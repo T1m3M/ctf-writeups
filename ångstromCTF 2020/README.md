@@ -328,7 +328,7 @@ Now be running it:
 $ python3 decrypt.py
 9799116102123105110104971081019510112010497108101951011221121224549505148579810x10x103121104xxxx1x11
 ```
-I used this site to decrypt the result after seperating the digits manually and the result was ``` actf{inhale_exhale_ezpz-12309b ``` .. it seems we got part of the flag but there are lost bits .. so i edited the last couple of lines in python to print the next occurence of the flag
+I used this [site](https://www.rapidtables.com/convert/number/ascii-hex-bin-dec-converter.html) to decrypt the result after seperating the digits manually and the result was ``` actf{inhale_exhale_ezpz-12309b ``` .. it seems we got only a part of the flag but there are lost bits .. so we need to add the following couple of lines in our python script to print the next occurence of the flag
 ```python
 pos = all.find('9799116102123')
 posnext = all.find('9799116', pos+1)
@@ -339,5 +339,6 @@ And by running again:
 $ python3 decrypt.py
 9799116102123105110104971081019510112010497108101951011221121224549505148579810510310312110497981211
 ```
-Great! There are no lost bits .. no decypting again using the same site and yeah, we got the flag!
+Great! There are no lost bits .. Now decrypting again using the same site and yeah, we got the flag!
+
 Flag: ``` actf{inhale_exhale_ezpz-12309biggyhaby} ```
