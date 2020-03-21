@@ -411,7 +411,7 @@ Given [holmes.pcap](holmes.pcap) file .. get the flag
 ### solution
 **Solved after the competition**
 
-Using wireshark and after studying the capture i make an assumption about what's going on ..
+Using wireshark and after studying the capture i made an assumption about what's going on ..
 
 there's a file **safe.tar.gz.gpg** has been sent so now we need to collect the packets and see what will happen next:
 we choose a packet of the many packets of this file over FTP-DATA protocol then ``` right-click > Follow > TCP Stream ```
