@@ -402,10 +402,10 @@ flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 <hr />
 
 ## Holmes Traces
-#### Malware reverse engineering (100 points)
+#### Forensics (100 points)
 
 ### Description
-given [holmes.pcap](holmes.pcap) file .. get the flag
+Given [holmes.pcap](holmes.pcap) file .. get the flag
 
 
 ### solution
