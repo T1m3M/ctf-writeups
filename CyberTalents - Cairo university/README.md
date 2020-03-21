@@ -460,7 +460,7 @@ $ tar -xvf safe.tar
 Steg.png
 ```
 
-Well, now we have a photo named Steg.png so we will conclude that the flag is hidden inside using a **Steg**anography method .. i tried many tools but [https://github.com/DimitarPetrov/stegify](stegify) did the job *make sure to install golang before*
+Well, now we have a photo named Steg.png so we will conclude that the flag is hidden inside using a **Steg**anography method .. i tried many tools but [stegify](https://github.com/DimitarPetrov/stegify) did the job *make sure to install golang before*
 
 Finally:
 ```
