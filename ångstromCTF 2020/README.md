@@ -139,7 +139,7 @@ Flag: ``` actf{that_gosh_darn_canary_got_me_pwned!} ```
 > *Hint: Try some google searches for "how to run a file in linux" or "bash for beginners".*
 
 ### solution:
-We go to the shell server and to the directory given we'll find 2 files flag.txt and revving_up And by: ``` $ file revving_up ``` we know that it's ELF 64-bit and by running it:
+We go to the shell server and to the directory given we'll find 2 files flag.txt and revving_up And by: ```bash $ file revving_up ``` we know that it's ELF 64-bit and by running it:
 ```
 $ ./revving_up
 Congratulations on running the binary!
@@ -180,3 +180,40 @@ Flag: ``` actf{g3tting_4_h4ng_0f_l1nux_4nd_b4sh} ```
 > *Hint: There are ways to run programs without using the shell.*
 
 ### solution:
+By looking at the source we find interesting conditions:
+```c
+int main(int argc, char* argv[]) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+    if (argc != 2) {
+        puts("Your argument count isn't right.");
+        return 1;
+    }
+    if (strcmp(argv[1], " \n'\"\x07")) {
+        puts("Your argument isn't right.");
+        return 1;
+    }
+    char buf[128];
+    fgets(buf, 128, stdin);
+    if (strcmp(buf, "\x00\x01\x02\x03\n")) {
+        puts("Your input isn't right.");
+        return 1;
+    }
+    puts("You seem to know what you're doing.");
+    print_flag();
+}
+```
+So now we know that:
+1. There's an argument we must provide when running the file
+2. The argument value must be ```" \n'\"\x07"``` *(without the quotes)*
+3. There's an input of value ```"\x00\x01\x02\x03\n"``` *(without the quotes)*
+
+I decoded the argument to hex so it's now: ``` \x20\x0a\x27\x22\x07 ``` .. i tried many methods but the easier one to pass this value as argument is using the ```$''``` quote style .. for the input we can use either ``` echo -e ``` or ``` printf ``` the both commands do the same job .. now our full command is:
+```bash
+$ printf '\x00\x01\x02\x03\n' | ./inputter $'\x20\x0a\x27\x22\x07'
+You seem to know what you're doing.
+actf{impr4ctic4l_pr0blems_c4ll_f0r_impr4ctic4l_s0lutions}
+```
+
+Flag: ``` actf{impr4ctic4l_pr0blems_c4ll_f0r_impr4ctic4l_s0lutions} ```
+
+---
