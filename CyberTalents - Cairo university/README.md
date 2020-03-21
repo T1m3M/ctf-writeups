@@ -11,6 +11,7 @@ It was the first year for CyberTalents's Cybersecurity CTF Competition at Cairo 
 | ---------------------------------- |:-------------------------------:| -----:|
 |    [repeat](#repeat)               |   Forensics                     | 100   |
 |    [ezez keygen 2](#ezez-keygen-2) |   Malware reverse engineering   | 100   |
+|    [Holmes Traces](#holmes-traces) |   Forensics                     | 100   |
 
 <hr />
 
@@ -397,4 +398,76 @@ flag is: flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
 that's it!! we got the flag!
 ```
 flag{WeWvPhPnXvA$QbWhQzQuWuQuQuQj}
+```
+<hr />
+
+## Holmes Traces
+#### Malware reverse engineering (100 points)
+
+### Description
+give [holmes.pcap](holmes.pcap) file .. get the flag
+
+
+### solution
+**Solved after the competition**
+
+Using wireshark and after studying the capture i make an assumption about what's going on ..
+
+there's a file **safe.tar.gz.gpg** has been sent so now we need to collect the packets and see what will happen next:
+we choose a packet of the many packets of this file over FTP-DATA protocol then ``` right-click > Follow > TCP Stream ```
+
+there's a window popup contains the stream of the file and we will choose ``` show data and save as: Raw ``` then ``` Save as > safe.tar.gz.gpg ``` 
+
+Now we got the file notice that gpg file needs a password to be decrypted so our next step will be getting that password!
+
+There's interesting base64 text while we are scrolling in the pcap file .. and they all are sent over the protocol HTTP
+and the source is: ``` 192.168.56.1 ``` and the destination is: ``` 192.168.56.101 ``` so our filter is:
+```
+http && ip.src == 192.168.56.1 && ip.dst == 192.168.56.101
+```
+and by decoding each base64 password:
+```
+QWxtb3N0VGhlcmVKdXN0cGFzcw==  ->    AlmostThereJustpass
+cVNGVXFaV3pNWG5CckJTY3E=	   ->	   qSFUqZWzMXnBrBScq
+MjAwQ29kZW1lYW5zPw==		      ->	   200Codemeans?
+QXV0b3NweVdhdHNvbg==		      ->	   AutospyWatson
+QXV0b3NweUhvbG1lcw==		      ->	   AutospyHolmes
+QyJdXyt1ajxfLmZLUWs9U1k=	   ->	   C"]_+uj<_.fKQk=SY
+aFNZdldEc0NrVWVySFlOdXE=	   ->	   hSYvWDsCkUerHYNuq
+SEZzTU13Q1BZTkhSU3BEcGo=	   ->	   HFsMMwCPYNHRSpDpj
+NWJIV3B6MmFmN3RUUHpWNVI=	   ->	   5bHWpz2af7tTPzV5R
+SG9sbWVzJldhdHNvblBhc3M=	   ->	   Holmes&WatsonPass
+Q2Fpcm9TZWN1cml0eUNhbXA=	   ->	   CairoSecurityCamp
+U2hlcmxva0hvbG1lczI=		      ->	   SherlokHolmes2
+UGFzczJyZFNvbHZlMjI=		      ->	   Pass2rdSolve22
+Qy8tdHQ6KytIa2tCVWhkZyQ=	   ->	   C/-tt:++HkkBUhdg$
+Yzs3WnFqTkBSbi1bZiRZJA==	   ->	   c;7ZqjN@Rn-[f$Y$
+JiFzbndCQEdtWVR+a1Y5XTYl	   ->	   &!snwB@GmYT~kV9]6%
+```
+
+And by applying each password to decrypt the gpg file using this command:
+```
+$ gpg -d --batch --passphrase="THE PASSWORD GOES HERE" safe.tar.gz.gpg
+```
+we will see that 5bHWpz2af7tTPzV5R is the real password! there's ascii data floating around so now we need to improve our command:
+```
+$ gpg -d --batch --passphrase="5bHWpz2af7tTPzV5R" safe.tar.gz.gpg > safe.tar.gz
+```
+Now we need to decrypt the resulting file safe.tar.gz:
+```
+$ gunzip safe.tar.gz
+$ tar -xvf safe.tar
+Steg.png
+```
+
+Well, now we have a photo named Steg.png so we will conclude that the flag is hidden inside using a **Steg**anography method .. i tried many tools but [https://github.com/DimitarPetrov/stegify](stegify) did the job *make sure to install golang before*
+
+Finally:
+```
+$ stegify decode --carrier Steg.png --result flag
+```
+The result is a JPEG photo when we open it we find this text **"N3twRk_Tr@c_hV_m@ny_Det@ls"**
+
+```
+flag{N3twRk_Tr@c_hV_m@ny_Det@ls}
 ```
