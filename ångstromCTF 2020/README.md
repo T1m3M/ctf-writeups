@@ -1,7 +1,7 @@
 # ångstromCTF 2020
 ![ångstromCTF 2020](angstromCTF2020.png)
 
-ångstromCTF 2020 was a really great competition and we as **P1rates** team enjoyed it and learned a lot, Here's my writeup about what i solved.
+ångstromCTF 2020 was really a great competition and we as [**P1rates**](https://2020.angstromctf.com/teams/6525) team enjoyed it and learned a lot, I participated as **T1m3-m4ch1n3** and Here's my writeup about what i solved.
 
 ## Challenges
 
