@@ -297,7 +297,8 @@ width, height = im.size
 
 def getchar(a, b):
     char = []
-
+    
+    # to iterate through the RGB values of the one pixel
     for i in range(0, 3):
         
         x = list(str(a[i]))
