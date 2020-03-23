@@ -459,6 +459,7 @@ $ gunzip safe.tar.gz
 $ tar -xvf safe.tar
 Steg.png
 ```
+![Steg.png](Steg.png)
 
 Well, now we have a photo named Steg.png so we will conclude that the flag is hidden inside using a **Steg**anography method .. i tried many tools but [stegify](https://github.com/DimitarPetrov/stegify) did the job *make sure to install golang before*
 
@@ -467,6 +468,7 @@ Finally:
 $ stegify decode --carrier Steg.png --result flag
 ```
 The result is a JPEG photo when we open it we find this text **"N3twRk_Tr@c_hV_m@ny_Det@ls"**
+![flag](flag)
 
 ```
 flag{N3twRk_Tr@c_hV_m@ny_Det@ls}
