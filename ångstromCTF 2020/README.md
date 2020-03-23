@@ -232,9 +232,13 @@ Important: Don't use Python 3.8, use an older version of Python 3!
 > Also, which way does LSB work?*
 
 ### solution:
-Nice, so before anything .. we have an original photo ```breathe.jpg``` that has been encoded to ```output.png``` using ```public.py``` script
+Nice, so before anything .. we have an original photo ```breathe.jpg```:<br>
+![original image](msb/breathe.jpg)
 
-Now we need to understand this script:
+that has been encoded to ```output.png```:<br>
+![encoded image](msb/output.png)
+
+using ```public.py``` script:
 ```python
 from PIL import Image
 
@@ -273,7 +277,7 @@ pixels = im.load()
 By reading the script provided we conclude:
 1. flag variable has the decimal values of the characters of the flag ```(ex: "abc" -> "979899")```
 2. the for loop reads the pixels from top to bottom for each column in the photo starting from top left
-3. the first pixel in the photo it's first digit from the left "MSB" is replaced with the first digit from the left in the flag variable and the second pixel with the second digit in the flag, etc.. until the flag decimal values ends and then it starts over from the beggining of the flag, etc..
+3. the first pixel in the photo it's first digit from the left "MSD" is replaced with the first digit from the left in the flag variable and the second pixel with the second digit in the flag, etc.. until the flag decimal values ends and then it starts over from the beggining of the flag, etc..
 
 So if the pixel is ``` 104 ``` and the digit from flag decimal representition is ```2``` the pixel becomes ``` 204 ``` 
 But there's a problem .. if the digit is 9 the pixel can not be ``` 904 ``` because the most value that can be stored to the pixel is ```255``` so in this case this digit is lost ...
