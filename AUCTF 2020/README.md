@@ -14,4 +14,16 @@ AUCTF 2020 has ended, and me and my team [**P1rates**](https://ctftime.org/team/
 | [Don't Break Me](#don't-break-me)	      |   Reversing   |
 | [Thanksgiving Dinner](#thanksgiving-dinner) |   Pwn         |
 
+---
+
+## Cracker Barrel
+#### Reversing
+
+### Description:
+> **I found a USB drive under the checkers board at cracker barrel. My friends told me not to plug it in but surely nothing bad is on it?<br>
+> I found this file, but I can't seem to unlock it's secrets. Can you help me out?<br><br>
+> Also.. once you think you've got it I think you should try to connect to challenges.auctf.com at port 30000 not sure what that means, but it written on the flash drive..<br>
+> [cracker_barrel](cracker%20barrel/cracker\_barrel)**
+
+### Solution:
 
