@@ -26,4 +26,33 @@ AUCTF 2020 has ended, and me and my team [**P1rates**](https://ctftime.org/team/
 > [cracker_barrel](cracker%20barrel/cracker\_barrel)**
 
 ### Solution:
+Firstly we start by ```strings``` command and obviously the flag isn't there so we do ```file``` command we will find it's ELF 64-bit, dynamically linked and not stripped
+let's do some radare2 stuff
+```
+$ r2 -AA cracker_barrel
+[0x00001180]> afl
+```
+well, here we find some interesting function names like:
+```
+main
+sym.check
+sym.check_1
+sym.check_2
+sym.check_3
+sym.print_flag
+```
+then seeking to the main and entering the visual mode:
+```
+[0x00001180]> s main
+[0x000012b5]> VV
+```
+we notice that main calls sym.check and then ```test eax, eax``` and the ```je``` if it's false then it calls sym.print_flag .. So whatever happens inside check() function it MUST return a non-zero value so we can get the flag!
+
+By digging into check() function we see clearly the it takes the user input and calls check_1() function and if the return is zero it returns zero (which we don't need to happend), Otherwise it continues to call the second check which is check_2() and so on with check_3() .. so we need to make sure to return a non-zero value from these functions too
+
+Now going deeper inside check_1():
+![r2 screenshot](assests/cracker1.png)
+
+as we see clearly it takes the user input in s1 variable, then "starwars" in s2 and compares them if they're equal then it goes to the second check which compares the user input with "startrek" if they're NOT equal it returns 1, and by that we passed the first check!
+
 
