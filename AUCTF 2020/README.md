@@ -62,4 +62,43 @@ as we see clearly it takes the user input in s1 variable, then "starwars" in s2 
 
 So all we need to do is passing "starwars" as first input and by that we passed the first check!
 
+Now we go to check_2() function in visual mode we'll find there's a string "si siht egassem terces" that get modified by some operations and then compared to our second input
+![r2 screenshot](assests/cracker2.png)
 
+as seen in the photo above we can make a breakpoint in the `cmp` instruction and examine the 2 strings
+I'll use gdb for the debugging:
+```
+$ gdb cracker_barrel
+(gdb) set disassembly-flavor intel
+(gdb) disass check_2
+   ..
+   0x0000000000001553 <+132>:	mov    rsi,rdx
+   0x0000000000001556 <+135>:	mov    rdi,rax
+   0x0000000000001559 <+138>:	call   0x1130
+   ..
+
+(gdb) b *check_2+138
+Breakpoint 1 at 0x1559
+
+(gdb) r
+Give me a key!
+starwars
+You have passed the first test! Now I need another key!
+AAAA
+
+Breakpoint 1, 0x0000555555555559 in check_2 ()
+```
+
+Now we hit the breakpoint on the comparing point now by examining rsi and rdi:
+```
+(gdb) x/wx $rsi
+0x7fffffffc540:	0x41414141
+(gdb) x/2wx $rdi
+0x555555559420:	0x73692073	0x00000000
+```
+
+Clearly rsi is our input and rdi is how our input must be! which represents "s is" as a string (in little endian)!
+And this our second input!
+
+Now heading to our final check which is check_3 function() in visual mode .. we se a string "z!!b6~wn&\`" passed seperately to variables
+then 
