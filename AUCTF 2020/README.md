@@ -627,4 +627,15 @@ Flag: `auctf{static_or_dyn@mIc?_12923}`
 
 ---
 
+## Thanksgiving Dinner
+#### Pwn
+
+### Description:
+> **I just ate a huge dinner. I can barley eat anymore... so please don't give me too much!<br>
+> nc challenges.auctf.com 30011<br>
+> Note: ASLR is disabled for this challenge<br>
+> [turkey](thanksgiving%20dinner/turkey)**
+
+### Solution:
+
 
