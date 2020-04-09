@@ -410,3 +410,15 @@ auctf{If_u_h8_JAVA_and_@SM_try_c_sharp_2922}
 Flag: `auctf{If_u_h8_JAVA_and_@SM_try_c_sharp_2922}`
 
 ---
+
+## Sora
+#### Reversing
+
+### Description:
+> **This obnoxious kid with spiky hair keeps telling me his key can open all doors.<br>
+> Can you generate a key to open this program before he does?<br><br>
+> Connect to challenges.auctf.com 30004<br>
+> [sora](sora/sora)**
+
+### Solution:
+
