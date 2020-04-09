@@ -9,7 +9,7 @@ AUCTF 2020 has ended, and me and my team [**P1rates**](https://ctftime.org/team/
 | Title                           	      | Category      |
 | --------------------------------------------|--------------:|
 | [Cracker Barrel](#cracker-barrel)	      |   Reversing   |
-| [Mr. Game and Watch](#mr.-game-and-watch)   |   Reversing   |
+| [Mr. Game and Watch](#mr-game-and-watch)    |   Reversing   |
 | [Sora](#sora)      		   	      |   Reversing   |
 | [Don't Break Me](#don't-break-me)	      |   Reversing   |
 | [Thanksgiving Dinner](#thanksgiving-dinner) |   Pwn         |
@@ -146,3 +146,14 @@ auctf{w3lc0m3_to_R3_1021}
 Flag: `auctf{w3lc0m3_to_R3_1021}`
 
 ---
+
+## Mr. Game and Watch
+#### Reversing
+
+### Description:
+> **My friend is learning some wacky new interpreted language and different hashing algorithms. He's hidden a flag inside this program but I cant find it...<br><br>
+> He told me to connect to challenges.auctf.com 30001 once I figured it out though.<br>
+> [mr_game_and_watch.class](mr.%20game%20and%20watch/mr_game_and_watch.class)**
+
+### Solution:
+
