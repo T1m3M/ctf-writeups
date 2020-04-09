@@ -11,7 +11,7 @@ AUCTF 2020 has ended, and me and my team [**P1rates**](https://ctftime.org/team/
 | [Cracker Barrel](#cracker-barrel)	      |   Reversing   |
 | [Mr. Game and Watch](#mr-game-and-watch)    |   Reversing   |
 | [Sora](#sora)      		   	      |   Reversing   |
-| [Don't Break Me](#don't-break-me)	      |   Reversing   |
+| [Don't Break Me](#dont-break-me)	      |   Reversing   |
 | [Thanksgiving Dinner](#thanksgiving-dinner) |   Pwn         |
 
 ---
@@ -501,3 +501,16 @@ auctf{that_w@s_2_ezy_29302}
 ```
 
 Flag: `auctf{that_w@s_2_ezy_29302}`
+
+---
+
+## Don't Break Me
+#### Reversing
+
+### Description:
+> **I've been working on my anti-reversing lately. See if you can get this flag!<br><br>
+> Connect at challenges.auctf.com 30005<br>
+> [dont_break_me](don't%20break%20me/dont_break_me)**
+
+### Solution:
+
