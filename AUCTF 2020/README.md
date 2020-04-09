@@ -458,13 +458,13 @@ If eax register does NOT equal zero then it prints the flag .. whatever happens 
 
 Now moving to IDA pro to see the decompilation of encrypt() function:
 
-<div align="center"><img src="assests/sora2.png" alt="r2 screenshot"></div>
+<div align="center"><img src="assests/sora2.png" alt="IDA pro screenshot"></div>
 
 The function simply encrypts the character and if it doesn't equal the equivalent character in the secret variable it return 0 which we don't want to happen
 
 the secret variable has the value of our interesting string `aQLpavpKQcCVpfcg`:
 
-<div align="center"><img src="assests/sora3.png" alt="r2 screenshot"></div>
+<div align="center"><img src="assests/sora3.png" alt="IDA pro screenshot"></div>
 
 Now i wrote this python script which iterates through each character in the secret variable string and finds the printable character that satisfies the if condition:
 
@@ -513,4 +513,118 @@ Flag: `auctf{that_w@s_2_ezy_29302}`
 > [dont_break_me](don't%20break%20me/dont_break_me)**
 
 ### Solution:
+Alright, with `file` command we know it's 32-bit ELF file, dynamically linked and not stripped .. and with `strings` command there's nothing interesting
+
+Now it's time for radare2:
+
+```
+$ r2 -AA dont-break-me
+[0x000010e0]> afl
+..
+0x000015a1    7 224          sym.decrypt
+0x0000138a    6 102          sym.get_string
+0x000014cf    7 210          sym.encrypt
+0x00001681    6 117          sym.inverse
+0x00001272    4 280          main
+..
+```
+
+Those function names sound interesting let's start with main() function:
+
+<div align="center"><img src="assests/break1.png" alt="r2 screenshot"></div>
+
+It seems that the program takes the user input then removes the newline character at the end, then pushes it as an argument to encrypt() function and put the result in s2 variable .. after that it allocates a new memory using calloc() built-in function and returns the address to s1 which is passed to get_string() function as an argument to load a string .. afterwards there's a compare so s1 MUST be equal s2
+
+So overall we need to reverse that as follows:
+- See the get_string() function and get the string which is loaded to s1
+- Decrypt that string using decrypt() function
+- Input the result in order to get the flag
+
+So far so good .. we'll start with decompiling get_string() function using IDA pro:
+
+<div align="center"><img src="assests/break2.png" alt="IDA pro screenshot"></div>
+
+It's clear that it iterates from 0 to 31 and with this if condition it only loads the even indexed characters (e.x. 0, 2, 4, ...) from blah variable **backwoards** in the a1 variable
+
+And this is the value of blah variable:
+
+<div align="center"><img src="assests/break3.png" alt="IDA pro screenshot"></div>
+
+Which is `XAPRMXCSBCEDISBVXISXWERJRWSZARSQ`
+
+Next, the decrypt() function:
+
+<div align="center"><img src="assests/break4.png" alt="IDA pro screenshot"></div>
+
+Clearly, it takes the user input string with two argument which, from analysing the code, are 12, 17 consecutively then iterates through each character and decrypt it using a formula which appears to be the [Affine Cipher](https://en.wikipedia.org/wiki/Affine_cipher)
+
+Finally the inverse() function:
+
+<div align="center"><img src="assests/break5.png" alt="IDA pro screenshot"></div>
+
+Simple enough! .. Now by combining our understanding of the previous functions i came up with this python script which is equivalent of all we said
+```python
+def get_string(s):
+    u = list(s)
+    result = []
+
+    for i in range (0, len(u)):
+        if i % 2 == 0:
+            result.append(u[i])
+
+    result.reverse()
+    return ''.join(result)
+
+def inverse(a):
+    n = 0
+    for i in range (0, 26):
+        if i * a % 26 == 1:
+            n = i
+
+    return n
+
+def decrypt(s, a, k):
+    x = ""
+
+    inv = inverse(a)
+
+    for i in s:
+        # check if the character is a space
+        if ord(i) == 32:
+            x += i
+        else:
+            x += chr(inv * (ord(i) + 65 - k)%26 + 65)
+    return x
+
+secret = "XAPRMXCSBCEDISBVXISXWERJRWSZARSQ"
+a = 17
+k = 12
+
+secret = get_string(secret)
+
+key = decrypt(secret, a, k)
+
+print(key)
+```
+
+Now by running this script it should give us the key:
+
+```
+$ python3 decrypt.py
+IKILLWITHMYHEART
+```
+
+Now connecting to the server:
+
+```
+$ nc challenges.auctf.com 30005
+54 68 65 20 6d 61 6e 20 69 6e 20 62 6c 61 63 6b 20 66 6c 65 64 20 61 63 72 6f 73 73 20 74 68 65 20 64 65 73 65 72 74 2c 20 61 6e 64 20 74 68 65 20 67 75 6e 73 6c 69 6e 67 65 72 20 66 6f 6c 6c 6f 77 65 64 2e
+Input: IKILLWITHMYHEART
+auctf{static_or_dyn@mIc?_12923}
+```
+
+Flag: `auctf{static_or_dyn@mIc?_12923}`
+
+---
+
 
