@@ -421,4 +421,83 @@ Flag: `auctf{If_u_h8_JAVA_and_@SM_try_c_sharp_2922}`
 > [sora](sora/sora)**
 
 ### Solution:
+As usual using `file` command it appears it's a 64-bit ELF file, dynamically linked and not stripped
+and with `strings` command we find an interesting part:
 
+```
+$ strings sora
+..
+aQLpavpKQcCVpfcg
+Give me a key!
+That's not it!
+flag.txt
+Too bad you can only run this exploit on the server...
+..
+```
+
+as a first assumption maybe `aQLpavpKQcCVpfcg` string is some sort of an encrypted key or something
+
+Alright, let's put this into radare2
+```
+$ r2 -AA sora
+[0x00001140]> afl
+..
+0x000012dd    7 171          sym.encrypt
+0x00001430    4 101          sym.__libc_csu_init
+0x00001229    6 180          main
+..
+
+[0x00001140]> s main
+[0x00001229]> VV
+```
+In the visual mode we can see the encrypt() function gets called after the user enters an input:
+
+<div align="center"><img src="assests/sora1.png" alt="r2 screenshot"></div>
+
+If eax register does NOT equal zero then it prints the flag .. whatever happens in encrypt() function it MUST returns a non-zero value
+
+Now moving to IDA pro to see the decompilation of encrypt() function:
+
+<div align="center"><img src="assests/sora2.png" alt="r2 screenshot"></div>
+
+The function simply encrypts the character and if it doesn't equal the equivalent character in the secret variable it return 0 which we don't want to happen
+
+the secret variable has the value of our interesting string `aQLpavpKQcCVpfcg`:
+
+<div align="center"><img src="assests/sora3.png" alt="r2 screenshot"></div>
+
+Now i wrote this python script which iterates through each character in the secret variable string and finds the printable character that satisfies the if condition:
+
+```python
+secret = "aQLpavpKQcCVpfcg"
+
+def getkeychar(a):
+
+    # iterates through the printable characters only
+    for x in range(ord(' '), ord('~')):
+        if chr((8 * x + 19)%61 + 65) == a:
+            return chr(x)
+
+key = ""
+for i in range (0, len(secret)):
+    key += getkeychar(secret[i])
+
+print(key)
+
+```
+
+Now running it gives us the key:
+```
+$ python3 key.py
+75<"72"%5($."0(G
+```
+
+Now connecting to the server:
+```
+$ nc challenges.auctf.com 30004
+Give me a key!
+75<"72"%5($."0(G
+auctf{that_w@s_2_ezy_29302}
+```
+
+Flag: `auctf{that_w@s_2_ezy_29302}`
